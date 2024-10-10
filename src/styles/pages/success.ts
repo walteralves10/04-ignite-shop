@@ -4,7 +4,7 @@ export const SuccessContainer = styled('main', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'space-around',
   margin: '0 auto',
   height: 656,
 
@@ -36,12 +36,19 @@ export const SuccessContainer = styled('main', {
 
 export const ImageContainer = styled('div', {
   width: '100%',
-  maxWidth: 130,
-  height: 145,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center'
+})
+
+export const ImageDetails = styled('div', {
+  width: '100%',
+  maxWidth: 140,
+  height: 140,
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
-  borderRadius: 8,
+  borderRadius: 1000,
   padding: '0.25rem',
-  marginTop: '4rem',
+  // marginLeft: '-3.25rem',
 
   display: 'flex',
   alignItems: 'center',
