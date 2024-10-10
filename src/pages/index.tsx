@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MouseEvent, useContext } from "react";
 import { HomeContainer, Product } from "../styles/pages/home";
 import Head from "next/head";
 import 'keen-slider/keen-slider.min.css'
@@ -7,23 +8,41 @@ import { stripe } from "../lib/stripe";
 import { GetStaticProps } from "next";
 import Stripe from "stripe";
 import Link from "next/link";
+import { Handbag } from "@phosphor-icons/react";
+import { CartContext } from "../contexts/context-cart";
+import { formatPrice } from "../utils";
 
+interface Product {
+  id: string;
+  name: string;
+  imageUrl: string;
+  price: number;
+  priceId: string;
+}
 interface HomeProps {
-  products: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    price: string;
-  }[]
+  products: Product[]
 }
 
 export default function Home({ products }: HomeProps) {
+  const { addCart, cart } = useContext(CartContext)
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
       spacing: 48,
     }
   })
+
+  function handleAddCart (e: MouseEvent<HTMLButtonElement>, data: Product) {
+    e.preventDefault()
+    const newCart = {
+      id: data.id,
+      name: data.name,
+      price: data.price,
+      imageUrl: data.imageUrl,
+      priceId: data.priceId,
+    }
+    addCart(newCart)
+  }
 
   return (
     <>
@@ -33,6 +52,8 @@ export default function Home({ products }: HomeProps) {
     
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products?.map(product => {
+        const containsInCart = cart.some(item => item.id === product.id)
+
         return (
           <Link
             href={`/product/${product.id}`}
@@ -45,8 +66,17 @@ export default function Home({ products }: HomeProps) {
               <Image src={product.imageUrl} width={520} height={480} alt="" />
 
               <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
+                <div>
+                  <strong>{product.name}</strong>
+                  <span>{formatPrice(product.price)}</span>
+                </div>
+
+                <button
+                  disabled={containsInCart}
+                  onClick={(e) => handleAddCart(e, product)}
+                >
+                  <Handbag size={32} />
+                </button>
               </footer>
             </Product>
           </Link>
@@ -73,10 +103,8 @@ export const getStaticProps: GetStaticProps = async () => {
       name: product.name,
       imageUrl: product.images[0],
       url: product.url,
-      price: new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL',
-      }).format((price?.unit_amount ?? 0) / 100),
+      price: price?.unit_amount ?? 0,
+      priceId: price.id,
     }
   })
   

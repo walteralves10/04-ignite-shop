@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { styled } from "..";
 
 export const HomeContainer = styled('main', {
@@ -21,6 +20,7 @@ export const Product = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  
 
   img: {
     objectFit: 'cover'
@@ -45,14 +45,43 @@ export const Product = styled('div', {
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
 
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100',
+    div: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.25rem',
+
+      strong: {
+        fontSize: '$lg',
+        color: '$gray100',
+      },
+
+      span: {
+        fontSize: '$xl',
+        fontWeight: 'bold',
+        color: '$green300',
+      },
     },
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300',
+
+    button: {
+      borderRadius: 6,
+      border: 'none',
+      padding: '0.75rem',
+      backgroundColor: '$green500',
+
+      '&:not(:disabled):hover': {
+        backgroundColor: '$green300',
+        cursor: 'pointer',
+      },
+
+      '&:disabled': {
+        cursor: 'not-allowed',
+        opacity: 0.5,
+      },
+
+      svg: {
+        fontWeight: 'bold',
+        color: '$white',
+      },
     },
   },
 
