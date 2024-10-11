@@ -79,6 +79,7 @@ function Sidebar() {
       
         <button
           className="purchase-button"
+          disabled={quantity <= 0}
           onClick={handleCheckout}
         >
           Finalizar compra

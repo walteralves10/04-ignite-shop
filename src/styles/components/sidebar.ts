@@ -117,6 +117,11 @@ export const SidebarSubTotal = styled('div', {
       background: '$green500',
       color: '$white',
       borderRadius: 8,
+
+      '&:disabled': {
+        opacity: 0.8,
+        cursor: 'not-allowed',
+      }
     }
   }
 })

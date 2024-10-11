@@ -22,12 +22,10 @@ interface ProductProps {
 }
 
 export default function Product ({ product }: ProductProps) {
-    const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
     const { isFallback } = useRouter()
-    const { addCart } = useContext(CartContext)
+    const { addCart, cart } = useContext(CartContext)
 
     function handleAddProductInCart (product: Product) {
-      setIsCreatingCheckoutSession(true)
       const newCart = {
         id: product.id,
         name: product.name,
@@ -36,9 +34,9 @@ export default function Product ({ product }: ProductProps) {
         priceId: product.priceId,
       }
       addCart(newCart)
-
-      setIsCreatingCheckoutSession(false)
     }
+
+    const validateProductInCart = cart.some(productCart => productCart.id === product.id)
 
     if (isFallback) {
       return <p>Loading...</p>
@@ -60,7 +58,7 @@ export default function Product ({ product }: ProductProps) {
 
             <p>{product.description}</p>
 
-            <button disabled={isCreatingCheckoutSession} onClick={() => handleAddProductInCart(product)}>
+            <button disabled={validateProductInCart} onClick={() => handleAddProductInCart(product)}>
               Colocar na sacola
             </button>
           </ProductDetails>

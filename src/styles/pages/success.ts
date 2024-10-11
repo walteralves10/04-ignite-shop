@@ -48,7 +48,10 @@ export const ImageDetails = styled('div', {
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 1000,
   padding: '0.25rem',
-  // marginLeft: '-3.25rem',
+  marginRight: '-3.25rem',
+  '&:last-child': {
+    marginRight: 0,
+  },
 
   display: 'flex',
   alignItems: 'center',
